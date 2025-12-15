@@ -25,15 +25,23 @@ load_dotenv()
 
 app = Flask(__name__)
 
+# Configuration loading
+BROWSER_USE_HOST = os.getenv('BROWSER_USE_HOST', '0.0.0.0')
+BROWSER_USE_PORT = int(os.getenv('BROWSER_USE_PORT', '4999'))
+BROWSER_USE_MAX_WORKERS = int(os.getenv('BROWSER_USE_MAX_WORKERS', '1'))
+BROWSER_WINDOW_WIDTH = int(os.getenv('BROWSER_WINDOW_WIDTH', '540'))
+BROWSER_WINDOW_HEIGHT = int(os.getenv('BROWSER_WINDOW_HEIGHT', '768'))
+BROWSER_USE_HEADLESS = os.getenv('BROWSER_USE_HEADLESS', 'true').lower() == 'true'
+
 # Task storage to keep track of tasks
 tasks = {}
 
 # Initialize a thread pool executor for running tasks in the background
-executor = ThreadPoolExecutor(max_workers=1)
+executor = ThreadPoolExecutor(max_workers=BROWSER_USE_MAX_WORKERS)
 
 sensitive_data = {
-    'x_name': os.environ['USERNAME'],
-    'x_password': os.environ['PASSWORD']
+    'x_name': os.getenv('BROWSER_USE_USERNAME', ''),
+    'x_password': os.getenv('BROWSER_USE_PASSWORD', '')
 }
 
 # Function to process the task in the background
@@ -42,20 +50,30 @@ def process_task(task_id, objective):
 
     async def run_browser_use(objective):
         try:
-            browser = Browser()
+            browser = Browser(
+                config=BrowserConfig(
+                    headless=BROWSER_USE_HEADLESS,
+                )
+            )
+            
+            # Setup LLM with optional base_url for compatibility
+            llm_kwargs = {
+                'model': os.environ['MODEL_NAME'],
+                'api_key': os.environ['OPENAI_API_KEY']
+            }
+            if os.getenv('OPENAI_API_BASE'):
+                llm_kwargs['base_url'] = os.getenv('OPENAI_API_BASE')
+
             agent = Agent(
                 task=objective,
                 browser_context=BrowserContext(
                     browser=browser,
                     config=BrowserContextConfig(
-                        browser_window_size={'width': 540, 'height': 768},
-                        viewport_expansion=768
+                        browser_window_size={'width': BROWSER_WINDOW_WIDTH, 'height': BROWSER_WINDOW_HEIGHT},
+                        viewport_expansion=BROWSER_WINDOW_HEIGHT
                     ),
                 ),
-                llm=ChatOpenAI(
-                    model=os.environ['MODEL_NAME'],
-                    api_key=os.environ['OPENAI_API_KEY']
-                ),
+                llm=ChatOpenAI(**llm_kwargs),
                 sensitive_data=sensitive_data,
                 use_vision=False,
             )
@@ -122,4 +140,5 @@ def query(task_id):
         return jsonify(task), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=4999)
+    logger.info(f"Starting server on {BROWSER_USE_HOST}:{BROWSER_USE_PORT}")
+    app.run(debug=True, host=BROWSER_USE_HOST, port=BROWSER_USE_PORT)

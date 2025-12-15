@@ -1,0 +1,6 @@
+crewai
+browser-use
+langchain-openai
+flask
+python-dotenv
+playwright

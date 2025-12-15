@@ -80,8 +80,10 @@ class BrowserUseTool(BaseTool):
     def _run(self, **kwargs: Any) -> Any:
         """Execute the GUI automation instructions on a web browser."""
         browser_use_objective = kwargs.get("browser_use_objective")
-        timeout = 300  # 5 minutes timeout
-        check_interval = 2  # Check status every 1 second
+        
+        # Configuration from environment with defaults
+        timeout = int(os.environ.get("BROWSER_USE_TOOL_TIMEOUT", 300))  # Default 5 minutes
+        check_interval = int(os.environ.get("BROWSER_USE_TOOL_CHECK_INTERVAL", 2))  # Default 2 seconds
 
         try:
             browser_use_api = BrowserUseAPI(url=os.environ["BROWSER_USE_API_URL"])

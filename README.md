@@ -1,69 +1,114 @@
-# crewai_tools_browser_use
+# ArtemisAI CrewAI + Browser Use Integration
 
-## Overview
-With the rise of Large Language Models (LLMs), AI agents are transforming productivity across various fields. Typically seen as standalone tools, these agents can achieve even more when working together. This repository explores the collaboration between two distinct agents: the [CrewAI](https://github.com/crewAIInc/crewAI) , which excels in generation and planning, and the [Browser Use](https://github.com/browser-use/browser-use), specialized in GUI-based automation tasks. By connecting their strengths, we can create a powerful synergy where one agent's capabilities complement the other's limitations. This initial trial demonstrates how heterogeneous agents can work together seamlessly, unlocking new possibilities for complex tasks that require both creativity and precision.
+**Developed by [ArtemisAI](https://artemis-ai.ca)**
 
-## 1. Browser Use Tool
-BrowserUseTool (`browser_use_tool.py`) is a standard CrewAI toolk implementation. It can be placed in the `src/tools`. This tool receives an instruction and sends it to the browser-use agent. Since GUI automation tasks can take a fairly long time, it submits the task and performs rolling polling to check if the task has finished and produced results.
+This project integrates [CrewAI](https://crewai.com) with [Browser Use](https://github.com/browser-use/browser-use) to enable AI agents to perform complex, headed (visible) web research tasks.
 
+## 🚀 Features
 
-## 2. Browser Use Service
-BrowserUseService (`browser_use_service.py`) is the backend component responsible for executing web automation task. The service can only work on one specific task at a time. If other tasks are submitted, they will be pending until the current task is finished. 
+- **Headed Browser Automation**: Watch the agent browse the web in real-time.
+- **Service-Based Architecture**: Separation of concerns between the CrewAI agent (client) and the Browser execution (server).
+- **Configurable**: Fully controlled via `.env` file (LLM providers, window size, headless mode).
+- **Windows Compatible**: Includes patches for Windows signal handling issues.
+- **Observability**: Integrated with CrewAI traces (telemetry).
 
-```mermaid
-sequenceDiagram
-    participant CrewAI_Agent as CrewAI Agent
-    participant BrowserUseService as Browser Use Service
-    participant BrowserUseAgent as Browser Use Agent
+## 🛠️ Setup
 
-    CrewAI_Agent->>BrowserUseService: Submit Task with Instructions
-    BrowserUseService-->>CrewAI_Agent: Return task_id
+### Prerequisites
 
-    BrowserUseService->>BrowserUseAgent: Submit Task for Automation
-    loop Every 2 seconds
-        CrewAI_Agent->>BrowserUseService: Query Status with task_id
-        alt Task is not completed
-            BrowserUseService-->>CrewAI_Agent: Status: In Progress
-        else Task is completed
-            BrowserUseAgent-->>BrowserUseService: Return Results
-            BrowserUseService-->>CrewAI_Agent: Status: Completed
-            BrowserUseService-->>CrewAI_Agent: Return Results
-        end
-    end
+- Python 3.10+
+- [Playwright](https://playwright.dev/)
+
+### Installation
+
+1. **Clone the repository**
+2. **Create a virtual environment**:
+
+    ```powershell
+    python -m venv .venv
+    ```
+
+3. **Install dependencies**:
+
+    ```powershell
+    .venv\Scripts\pip install -r requirements.txt
+    ```
+
+4. **Install Playwright browsers**:
+
+    ```powershell
+    .venv\Scripts\playwright install
+    ```
+
+### Configuration
+
+Copy `.env.example` to `.env` and configure your settings:
+
+```env
+# LLM Configuration
+OPENAI_API_KEY=sk-mecRZ326kTQ5VGc0NWKsOA
+OPENAI_API_BASE=https://llm.artemis-ai.ca/v1
+MODEL_NAME=deepseek-v3.1-671b-cloud
+
+# Browser Settings
+BROWSER_USE_HEADLESS=false  # Set to false to see the browser
+BROWSER_WINDOW_WIDTH=1280
+BROWSER_WINDOW_HEIGHT=1024
+
+# Service Settings
+BROWSER_USE_HOST=0.0.0.0
+BROWSER_USE_PORT=4999
 ```
 
-### Customization
+## 🏃 Usage
 
-You may need do some customization by yourself, to set up .env file, the browser configuration etc. The service default port is `4999`. Following is an example `.env` file of `browser_use_service.py`. Place them in the same folder. 
-```
-OPENAI_API_KEY=<YOUR_OPENAI_API_KEY>
-MODEL_NAME=gpt-4o-mini
-USERNAME=user
-PASSWORD=password
-```
+### 1. Start the Browser Service
 
-Here, `USERNAME` and `PASSWORD` are sensitive_data will be passed to BrowserUse Agent.
-```python
-sensitive_data = {
-    'x_name': os.environ['USERNAME'],
-    'x_password': os.environ['PASSWORD']
-}
+The service must be running for the agents to work.
+
+```powershell
+.venv\Scripts\python crewai_tools/browser_use_tool/browser_use_service.py
 ```
 
-### BrowserUse Installation
+### 2. Run the Research Crew
 
-Please refer to the [Browser Use](https://github.com/browser-use/browser-use) page.
+You can run the provided examples to see the agent in action.
 
-With pip (Python>=3.11):
+**Example 1: Tech Trends**
 
-```bash
-pip install browser-use
+```powershell
+.venv\Scripts\python examples/example_1_tech_trends.py
 ```
 
-install playwright:
+**Example 2: Crypto Prices**
 
-```bash
-playwright install
+```powershell
+.venv\Scripts\python examples/example_2_financial_snapshot.py
 ```
 
+**Example 3: Product Comparison**
 
+```powershell
+.venv\Scripts\python examples/example_3_competitor_analysis.py
+```
+
+## 🔧 Troubleshooting
+
+### Login to CrewAI
+
+If you need to login to CrewAI and are on Windows, use the patched script:
+
+```powershell
+.venv\Scripts\python login_patch.py
+```
+
+### Windows Signal Errors
+
+If you encounter `AttributeError: module 'signal' has no attribute 'SIGHUP'`, ensure you are using the provided example scripts or the patched test scripts (`tests/test_crew_win.py`), which include necessary compatibility patches.
+
+## 📂 Project Structure
+
+- `src/research_crew/`: Core CrewAI implementation.
+- `crewai_tools/`: The custom BrowserUseTool and Service.
+- `examples/`: Ready-to-run scenarios.
+- `logs/`: Execution logs (check here if something seems silent).
