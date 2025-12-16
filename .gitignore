@@ -68,3 +68,14 @@ node_modules/
 dist/
 .vscode/
 .DS_Store
+
+
+# _Docs/
+# Progress.md
+# Issues.md
+# Research/
+Templates/
+*.bak
+tests/
+_Import/
+
