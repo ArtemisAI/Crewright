@@ -47,12 +47,39 @@ wss.on("connection", (ws) => {
 // --- Helper: Send to Extension ---
 async function sendToExtension(method: string, params: any) {
     // Wait for connection logic
+    // Wait for connection logic (Copilot Optimization)
     if (!activeSocket || activeSocket.readyState !== WebSocket.OPEN) {
         console.error("[Bridge] Waiting for extension to connect...");
-        for (let i = 0; i < 15; i++) {
-            if (activeSocket && activeSocket.readyState === WebSocket.OPEN) break;
-            await new Promise(r => setTimeout(r, 1000));
-        }
+
+        await new Promise<void>((resolve, reject) => {
+            const timeout = setTimeout(() => {
+                cleanup();
+                reject(new Error("Timeout waiting for extension to connect"));
+            }, 15000);
+
+            function checkAndResolve() {
+                if (activeSocket && activeSocket.readyState === WebSocket.OPEN) {
+                    cleanup();
+                    resolve();
+                }
+            }
+
+            function onConnection(ws: WebSocket) {
+                // The global handler (line 18) sets activeSocket first.
+                // But we listen here to trigger immediate resolution.
+                ws.once("open", checkAndResolve);
+                checkAndResolve();
+            }
+
+            function cleanup() {
+                clearTimeout(timeout);
+                wss.off("connection", onConnection);
+            }
+
+            wss.on("connection", onConnection);
+            // Also check immediately in case the socket is already open
+            checkAndResolve();
+        });
     }
 
     if (!activeSocket || activeSocket.readyState !== WebSocket.OPEN) {
