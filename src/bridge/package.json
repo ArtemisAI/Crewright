@@ -1,5 +1,5 @@
 {
-    "name": "@artemisai-dev/crewright",
+    "name": "@artemisai/crewright",
     "version": "1.0.0",
     "description": "The Parasitic Browser Bridge for CrewAI. Control authenticated Chrome sessions via MCP.",
     "main": "dist/index.js",

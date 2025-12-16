@@ -1,8 +1,8 @@
-# @artemisai-dev/crewright
+# @artemisai/crewright
 
 The Parasitic Browser Bridge for CrewAI. Control authenticated Chrome sessions via MCP.
 
-[![npm version](https://img.shields.io/npm/v/@artemisai-dev/crewright.svg)](https://www.npmjs.com/package/@artemisai-dev/crewright)
+[![npm version](https://img.shields.io/npm/v/@artemisai/crewright.svg)](https://www.npmjs.com/package/@artemisai/crewright)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
@@ -12,9 +12,9 @@ Crewright enables CrewAI agents to control your already-open Chrome browser, inh
 ## Installation
 
 ```bash
-npm install -g @artemisai-dev/crewright
+npm install -g @artemisai/crewright
 # or
-npx @artemisai-dev/crewright
+npx @artemisai/crewright
 ```
 
 ## Usage
@@ -35,7 +35,7 @@ from crewai.mcp import MCPServerStdio
 
 crewright_server = MCPServerStdio(
     command="npx",
-    args=["@artemisai-dev/crewright"]
+    args=["@artemisai/crewright"]
 )
 
 agent = Agent(
