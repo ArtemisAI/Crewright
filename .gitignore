@@ -76,6 +76,6 @@ dist/
 # Research/
 Templates/
 *.bak
-tests/
+# tests/
 _Import/
 

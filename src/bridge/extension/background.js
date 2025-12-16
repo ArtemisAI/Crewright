@@ -60,7 +60,41 @@ async function handleCommand(msg) {
 
         sendResponse(msg.id, { status: "success", result: "Navigated to " + msg.params.url });
 
-    } else if (msg.method === "get_page_content" || msg.method === "click_element" || msg.method === "type_text") {
+    } else if (msg.method === "screenshot") {
+        try {
+            // captureVisibleTab returns a base64 Data URL (data:image/jpeg;base64,...)
+            // We use png format for better quality/transparency support if needed, though jpeg is default
+            const dataUrl = await chrome.tabs.captureVisibleTab(null, { format: "png" });
+            // Remove the "data:image/png;base64," prefix for MCP
+            const base64Data = dataUrl.replace(/^data:image\/\w+;base64,/, "");
+
+            sendResponse(msg.id, base64Data); // MCP expects just the string for this specific tool based on our index.ts
+        } catch (error) {
+            sendResponse(msg.id, { status: "error", error: error.message });
+        }
+
+    } else if (msg.method === "evaluate") {
+        try {
+            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+            if (!tab) throw new Error("No active tab found");
+
+            const results = await chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                func: (expression) => {
+                    // This runs IN the page context
+                    return (function () { return eval(expression); })();
+                },
+                args: [msg.params.expression]
+            });
+
+            // chrome.scripting returns array of results (one per frame)
+            const result = results[0]?.result;
+            sendResponse(msg.id, { status: "success", result: result !== undefined ? String(result) : "undefined" });
+        } catch (error) {
+            sendResponse(msg.id, { status: "error", error: error.message });
+        }
+
+    } else if (["get_page_content", "click", "fill", "hover", "press", "scroll"].includes(msg.method)) {
         // Execute in the active tab
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (!tab) {
