@@ -1,21 +1,25 @@
 # Crewright 👻
 
-**The Parasitic Browser Bridge for CrewAI.**
+**The Parasitic Browser Bridge for [CrewAI](https://crewai.com).**
 *Control your live, authenticated Chrome session with AI Agents.*
 
 [![Status](https://img.shields.io/badge/Status-Stable-brightgreen)](https://github.com/crewai/crewright)
 [![MCP](https://img.shields.io/badge/MCP-Compliant-blue)](https://modelcontextprotocol.io)
 [![Stack](https://img.shields.io/badge/Stack-TypeScript_%7C_Manifest_V3-blue)](https://nodejs.org)
+[![CrewAI](https://img.shields.io/badge/Powered%20By-CrewAI-orange)](https://docs.crewai.com)
 
 ---
 
 ## 🧐 What is this?
-**Crewright** (Crew + Light) is an MCP Server that lets AI Agents "hitch a ride" on your existing Chrome browser.
+**Crewright** is the missing link between **[CrewAI](https://crewai.com)** and your browser.
+*> "Like Playwright, but for CrewAI!"*
 
 Unlike **Playwright MCP** (which launches a clean, empty browser), **Crewright** connects to your **already open** Chrome window.
 *   **Login to nothing**: The agent uses *your* cookies.
 *   **Bypass everything**: Cloudflare sees *you*, not a bot.
 *   **Visual Feedback**: Watch the agent click and type in real-time.
+
+It is designed to work seamlessly with the [CrewAI Framework](https://docs.crewai.com) to give your agents "eyes" and "hands" on the web.
 
 ## 🚀 Key Features
 *   **Parasitic Stealth**: zero-config authentication.
@@ -25,11 +29,16 @@ Unlike **Playwright MCP** (which launches a clean, empty browser), **Crewright**
 ## 📦 Installation
 
 ### 1. The Extension (Chrome)
-1.  Navigate to `chrome://extensions`.
-2.  Enable **Developer Mode**.
+To give CrewAI access to your browser, you need to load the bridge extension.
+
+1.  Open Chrome and navigate to `chrome://extensions`.
+2.  Enable **Developer Mode** (toggle in the top right corner).
 3.  Click **Load Unpacked**.
-4.  Select the `src/bridge/extension` folder from this repo.
-5.  *Look for the "Crewright Bridge" icon.*
+4.  Select the `src/bridge/extension` folder from this directory.
+5.  *Verify*: You should see the **Crewright Bridge** card with a 👻 icon.
+6.  *Check*: Ensure the toggle is **ON**.
+
+> **Note**: This extension runs entirely locally. It communicates *only* with your local Agent. No data is sent to the cloud.
 
 ### 2. The Server (Node.js)
 ```bash
