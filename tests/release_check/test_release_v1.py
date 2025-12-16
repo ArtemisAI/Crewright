@@ -19,8 +19,11 @@ bridge_server = MCPServerStdio(
    env=os.environ
 )
 
-# Configure LLM
-model_name = os.getenv("MODEL_NAME", "gpt-4o")
+# Configure LLM (Strict Env Var)
+model_name = os.getenv("MODEL_NAME")
+if not model_name:
+    raise ValueError("MODEL_NAME environment variable is required")
+
 my_llm = LLM(
     model=model_name,
     base_url=os.getenv("OPENAI_API_BASE"),
@@ -37,13 +40,14 @@ agent = Agent(
 )
 
 # Task uses OLD tool names because v1 on NPM doesn't have the new renames yet
+# ALIGNED: Matching verify_pkg_v1_0_1.py logic (Google Check)
 verify_task = Task(
     description="""
-    1. Navigate to 'https://example.com'.
-    2. Read the page content using `get_page_content`.
-    3. Report the first 100 characters.
+    1. Navigate to 'https://www.google.com'.
+    2. Get page content.
+    3. Report the title.
     """,
-    expected_output="Content of example.com",
+    expected_output="Confirmation that title contains Google",
     agent=agent
 )
 
