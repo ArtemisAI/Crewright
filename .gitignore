@@ -68,3 +68,5 @@ node_modules/
 dist/
 .vscode/
 .DS_Store
+
+_Docs/
