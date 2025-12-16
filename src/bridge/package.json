@@ -24,6 +24,11 @@
         "url": "https://dan-ai.pro/"
     },
     "license": "MIT",
+    "files": [
+        "dist/",
+        "package.json",
+        "README.md"
+    ],
     "scripts": {
         "build": "tsc",
         "start": "node dist/index.js",
