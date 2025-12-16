@@ -111,5 +111,13 @@ Go to **Cursor Settings** -> **MCP** -> **Add new** -> Command: `npx @crewai/cre
 *   [**Roadmap**](./ROADMAP.md) - What's coming next?
 *   [**Contributing**](./CONTRIBUTING.md) - Build the future of agentic browsing.
 
+## ❤️ Support & Sponsorship
+This project is open-source and maintained by **Daniel Gonzalez** (ArtemisAI).
+If you find this tool useful for your agents, please consider supporting the development!
+
+*   **Sponsor**: [GitHub Sponsors](https://github.com/sponsors/yourusername) (Replace with actual if available)
+*   **Hire Me**: [AI Solopreneur & Developer](https://dan-ai.pro/)
+*   **ArtemisAI**: [Enterprise AI Solutions](https://artemis-ai.ca)
+
 ---
-*Built with ❤️ by the **ArtemisAI Team** to help out all the bots 🤖 needing good tools.*
+*Built with ❤️ by the **ArtemisAI (Daniel Gonzalez)** to help out all the bots 🤖 needing good tools.*

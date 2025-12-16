@@ -15,7 +15,14 @@
         "stealth",
         "agent"
     ],
-    "author": "ArtemisAI",
+    "author": {
+        "name": "Daniel Gonzalez (ArtemisAI)",
+        "url": "https://dan-ai.pro/"
+    },
+    "funding": {
+        "type": "individual",
+        "url": "https://dan-ai.pro/"
+    },
     "license": "MIT",
     "scripts": {
         "build": "tsc",
