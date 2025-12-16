@@ -112,4 +112,4 @@ Go to **Cursor Settings** -> **MCP** -> **Add new** -> Command: `npx @crewai/cre
 *   [**Contributing**](./CONTRIBUTING.md) - Build the future of agentic browsing.
 
 ---
-*Built with ❤️ by the CrewAI Team.*
+*Built with ❤️ by the **ArtemisAI Team** to help out all the bots 🤖 needing good tools.*

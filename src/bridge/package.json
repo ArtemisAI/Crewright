@@ -15,7 +15,7 @@
         "stealth",
         "agent"
     ],
-    "author": "CrewAI",
+    "author": "ArtemisAI",
     "license": "MIT",
     "scripts": {
         "build": "tsc",
