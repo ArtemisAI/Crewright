@@ -1,4 +1,4 @@
-# Crewight Roadmap
+# Crewright Roadmap
 
 ## Phase 1: Core Stability (Current)
 - [x] **Parasitic Bridge**: Stable WebSocket connection between Agent and Extension.

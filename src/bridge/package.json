@@ -1,10 +1,10 @@
 {
-    "name": "@crewai/crewight",
+    "name": "@crewai/crewright",
     "version": "1.0.0",
     "description": "The Parasitic Browser Bridge for CrewAI. Control authenticated Chrome sessions via MCP.",
     "main": "dist/index.js",
     "bin": {
-        "crewight": "dist/index.js"
+        "crewright": "dist/index.js"
     },
     "keywords": [
         "crewai",

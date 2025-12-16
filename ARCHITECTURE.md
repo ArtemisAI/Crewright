@@ -1,4 +1,4 @@
-# Architecture: Crewight vs. Playwright MCP
+# Architecture: Crewright vs. Playwright MCP
 
 > **Why did we build this?**
 > Why not just use `npx @playwright/mcp`?
@@ -19,18 +19,18 @@ Companies like Cloudflare, Akamai, and Datadome specifically hunt for headless b
 *   **TLS Fingerprinting**: Headless Node.js/Python HTTP stacks look different.
 *   **JS Runtime Flags**: `navigator.webdriver = true`.
 
-## The Solution: Crewight (Parasitic Architecture)
-**Crewight does not launch a browser.** It infects yours.
+## The Solution: Crewright (Parasitic Architecture)
+**Crewright does not launch a browser.** It infects yours.
 
 ### "Parasitic" Control
-By installing the **Crewight Extension** in your *daily driver* Chrome profile, the agent inherits:
+By installing the **Crewright Extension** in your *daily driver* Chrome profile, the agent inherits:
 1.  **Your Cookies**: Already logged into Gmail, GitHub, Corporate SSO.
 2.  **Your Fingerprint**: The browser fingerprint matches a real human (you).
 3.  **Your Trust Score**: Requests come from a known, trusted IP and device.
 
 ### Comparison Matrix
 
-| Feature | Playwright MCP | **Crewight** |
+| Feature | Playwright MCP | **Crewright** |
 | :--- | :--- | :--- |
 | **Session** | New / Clean | **Existing / Authenticated** |
 | **Detection Risk** | High (Headless) | **Near Zero (Extension)** |
@@ -59,7 +59,7 @@ By installing the **Crewight Extension** in your *daily driver* Chrome profile, 
     *   You need to run 10,000 instances in parallel (Cloud).
     *   Auth is simple or non-existent.
 
-*   **Use Crewight** when:
+*   **Use Crewright** when:
     *   You need to perform actions inside a logged-in account (LinkedIn, Gmail).
     *   You are blocked by Cloudflare/Akamai.
     *   You want the agent to "assist" you in your current session.

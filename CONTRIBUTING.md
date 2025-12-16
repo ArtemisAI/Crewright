@@ -1,13 +1,13 @@
-# Contributing to Crewight
+# Contributing to Crewright
 
-We love your input! We want to make contributing to Crewight as easy and transparent as possible.
+We love your input! We want to make contributing to Crewright as easy and transparent as possible.
 
 ## Development Setup
 
 ### 1. Fork & Clone
 ```bash
-git clone https://github.com/your-username/crewight.git
-cd crewight
+git clone https://github.com/your-username/crewright.git
+cd crewright
 ```
 
 ### 2. Extension Dev

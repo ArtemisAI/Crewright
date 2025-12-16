@@ -1,18 +1,18 @@
-# Crewight 👻
+# Crewright 👻
 
 **The Parasitic Browser Bridge for CrewAI.**
 *Control your live, authenticated Chrome session with AI Agents.*
 
-[![Status](https://img.shields.io/badge/Status-Stable-brightgreen)](https://github.com/crewai/crewight)
+[![Status](https://img.shields.io/badge/Status-Stable-brightgreen)](https://github.com/crewai/crewright)
 [![MCP](https://img.shields.io/badge/MCP-Compliant-blue)](https://modelcontextprotocol.io)
 [![Stack](https://img.shields.io/badge/Stack-TypeScript_%7C_Manifest_V3-blue)](https://nodejs.org)
 
 ---
 
 ## 🧐 What is this?
-**Crewight** (Crew + Light) is an MCP Server that lets AI Agents "hitch a ride" on your existing Chrome browser.
+**Crewright** (Crew + Light) is an MCP Server that lets AI Agents "hitch a ride" on your existing Chrome browser.
 
-Unlike **Playwright MCP** (which launches a clean, empty browser), **Crewight** connects to your **already open** Chrome window.
+Unlike **Playwright MCP** (which launches a clean, empty browser), **Crewright** connects to your **already open** Chrome window.
 *   **Login to nothing**: The agent uses *your* cookies.
 *   **Bypass everything**: Cloudflare sees *you*, not a bot.
 *   **Visual Feedback**: Watch the agent click and type in real-time.
@@ -29,11 +29,11 @@ Unlike **Playwright MCP** (which launches a clean, empty browser), **Crewight** 
 2.  Enable **Developer Mode**.
 3.  Click **Load Unpacked**.
 4.  Select the `src/bridge/extension` folder from this repo.
-5.  *Look for the "Crewight Bridge" icon.*
+5.  *Look for the "Crewright Bridge" icon.*
 
 ### 2. The Server (Node.js)
 ```bash
-npx @crewai/crewight
+npx @crewai/crewright
 ```
 *(Or run locally during dev)*:
 ```bash
@@ -49,16 +49,16 @@ npm run build
 from crewai import Agent
 from crewai.mcp import MCPServerStdio
 
-crewight_server = MCPServerStdio(
+crewright_server = MCPServerStdio(
     command="npx",
-    args=["@crewai/crewight"] 
+    args=["@crewai/crewright"] 
     # OR local: args=["node", "./path/to/dist/index.js"]
 )
 
 agent = Agent(
     role="Browser Pilot",
     goal="Navigate LinkedIn",
-    mcps=[crewight_server],
+    mcps=[crewright_server],
     ...
 )
 ```
@@ -72,9 +72,9 @@ Add to `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "crewight": {
+    "crewright": {
       "command": "npx",
-      "args": ["@crewai/crewight"]
+      "args": ["@crewai/crewright"]
     }
   }
 }
@@ -84,7 +84,7 @@ Add to `claude_desktop_config.json`:
 <details>
 <summary><b>Cursor</b></summary>
 
-Go to **Cursor Settings** -> **MCP** -> **Add new** -> Command: `npx @crewai/crewight`
+Go to **Cursor Settings** -> **MCP** -> **Add new** -> Command: `npx @crewai/crewright`
 </details>
 
 ## 🛠️ Tools Available

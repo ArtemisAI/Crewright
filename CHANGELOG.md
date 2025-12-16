@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the **CrewAI Stealth-Stream Bridge** project will be documented in this file.
+All notable changes to the **Crewright** (Stealth-Stream Bridge) project will be documented in this file.
 
 ## [Unreleased] - 2025-12-16
 
@@ -19,6 +19,7 @@ All notable changes to the **CrewAI Stealth-Stream Bridge** project will be docu
     - `src/agents/test_agent.py`: Verified end-to-end functionality (Agent -> Node Bridge -> Extension -> Browser).
 
 ### Changed
+- **Rebranding**: Project officially renamed to **Crewright** (from internal codename "Crewight"), aligning with "Playwright" naming convention.
 - **Architecture Pivot**: Migrated Bridge Server from **Python (FastMCP)** to **Node.js (McpServer)**.
     - *Reason*: Python's `asyncio` loop handling for Stdio was unstable on Windows, causing frequent timeouts and pipe errors. Node.js offers superior stability for Stdio/WebSocket workloads.
 - **Protocol**: Switched internal Bridge-to-Extension communication to use standard JSON-RPC over WebSockets (`ws://localhost:8765`).
