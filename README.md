@@ -1,114 +1,106 @@
-# ArtemisAI CrewAI + Browser Use Integration
+# Crewight 👻
 
-**Developed by [ArtemisAI](https://artemis-ai.ca)**
+**The Parasitic Browser Bridge for CrewAI.**
+*Control your live, authenticated Chrome session with AI Agents.*
 
-This project integrates [CrewAI](https://crewai.com) with [Browser Use](https://github.com/browser-use/browser-use) to enable AI agents to perform complex, headed (visible) web research tasks.
+[![Status](https://img.shields.io/badge/Status-Stable-brightgreen)](https://github.com/crewai/crewight)
+[![MCP](https://img.shields.io/badge/MCP-Compliant-blue)](https://modelcontextprotocol.io)
+[![Stack](https://img.shields.io/badge/Stack-TypeScript_%7C_Manifest_V3-blue)](https://nodejs.org)
 
-## 🚀 Features
+---
 
-- **Headed Browser Automation**: Watch the agent browse the web in real-time.
-- **Service-Based Architecture**: Separation of concerns between the CrewAI agent (client) and the Browser execution (server).
-- **Configurable**: Fully controlled via `.env` file (LLM providers, window size, headless mode).
-- **Windows Compatible**: Includes patches for Windows signal handling issues.
-- **Observability**: Integrated with CrewAI traces (telemetry).
+## 🧐 What is this?
+**Crewight** (Crew + Light) is an MCP Server that lets AI Agents "hitch a ride" on your existing Chrome browser.
 
-## 🛠️ Setup
+Unlike **Playwright MCP** (which launches a clean, empty browser), **Crewight** connects to your **already open** Chrome window.
+*   **Login to nothing**: The agent uses *your* cookies.
+*   **Bypass everything**: Cloudflare sees *you*, not a bot.
+*   **Visual Feedback**: Watch the agent click and type in real-time.
 
-### Prerequisites
+## 🚀 Key Features
+*   **Parasitic Stealth**: zero-config authentication.
+*   **Manifest V3**: Secure, modern Chrome Extension architecture.
+*   **Native MCP**: Works with CrewAI, Claude Desktop, Cursor, and any MCP client.
 
-- Python 3.10+
-- [Playwright](https://playwright.dev/)
+## 📦 Installation
 
-### Installation
+### 1. The Extension (Chrome)
+1.  Navigate to `chrome://extensions`.
+2.  Enable **Developer Mode**.
+3.  Click **Load Unpacked**.
+4.  Select the `src/bridge/extension` folder from this repo.
+5.  *Look for the "Crewight Bridge" icon.*
 
-1. **Clone the repository**
-2. **Create a virtual environment**:
-
-    ```powershell
-    python -m venv .venv
-    ```
-
-3. **Install dependencies**:
-
-    ```powershell
-    .venv\Scripts\pip install -r requirements.txt
-    ```
-
-4. **Install Playwright browsers**:
-
-    ```powershell
-    .venv\Scripts\playwright install
-    ```
-
-### Configuration
-
-Copy `.env.example` to `.env` and configure your settings:
-
-```env
-# LLM Configuration
-OPENAI_API_KEY=sk-mecRZ326kTQ5VGc0NWKsOA
-OPENAI_API_BASE=https://llm.artemis-ai.ca/v1
-MODEL_NAME=deepseek-v3.1-671b-cloud
-
-# Browser Settings
-BROWSER_USE_HEADLESS=false  # Set to false to see the browser
-BROWSER_WINDOW_WIDTH=1280
-BROWSER_WINDOW_HEIGHT=1024
-
-# Service Settings
-BROWSER_USE_HOST=0.0.0.0
-BROWSER_USE_PORT=4999
+### 2. The Server (Node.js)
+```bash
+npx @crewai/crewight
+```
+*(Or run locally during dev)*:
+```bash
+cd src/bridge
+npm install
+npm run build
 ```
 
-## 🏃 Usage
+## ⚙️ Configuration (CrewAI)
 
-### 1. Start the Browser Service
+### Standard Setup
+```python
+from crewai import Agent
+from crewai.mcp import MCPServerStdio
 
-The service must be running for the agents to work.
+crewight_server = MCPServerStdio(
+    command="npx",
+    args=["@crewai/crewight"] 
+    # OR local: args=["node", "./path/to/dist/index.js"]
+)
 
-```powershell
-.venv\Scripts\python crewai_tools/browser_use_tool/browser_use_service.py
+agent = Agent(
+    role="Browser Pilot",
+    goal="Navigate LinkedIn",
+    mcps=[crewight_server],
+    ...
+)
 ```
 
-### 2. Run the Research Crew
+### Other Clients
 
-You can run the provided examples to see the agent in action.
+<details>
+<summary><b>Claude Desktop</b></summary>
 
-**Example 1: Tech Trends**
-
-```powershell
-.venv\Scripts\python examples/example_1_tech_trends.py
+Add to `claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "crewight": {
+      "command": "npx",
+      "args": ["@crewai/crewight"]
+    }
+  }
+}
 ```
+</details>
 
-**Example 2: Crypto Prices**
+<details>
+<summary><b>Cursor</b></summary>
 
-```powershell
-.venv\Scripts\python examples/example_2_financial_snapshot.py
-```
+Go to **Cursor Settings** -> **MCP** -> **Add new** -> Command: `npx @crewai/crewight`
+</details>
 
-**Example 3: Product Comparison**
+## 🛠️ Tools Available
 
-```powershell
-.venv\Scripts\python examples/example_3_competitor_analysis.py
-```
+| Tool | Description |
+| :--- | :--- |
+| `navigate(url)` | Moves the active tab to a new URL. |
+| `get_page_content()` | Returns the text content of the page (Markdown friendly). |
+| `click_element(selector)` | Clicks a DOM element via CSS selector. |
+| `type_text(selector, text)` | Types into an input field. |
+| `ask_human(question)` | Pauses execution and asks YOU for help (e.g., OTP codes). |
 
-## 🔧 Troubleshooting
+## 📚 Documentation
+*   [**Architecture**](./ARCHITECTURE.md) - Why "Parasitic" vs Headless?
+*   [**Roadmap**](./ROADMAP.md) - What's coming next?
+*   [**Contributing**](./CONTRIBUTING.md) - Build the future of agentic browsing.
 
-### Login to CrewAI
-
-If you need to login to CrewAI and are on Windows, use the patched script:
-
-```powershell
-.venv\Scripts\python login_patch.py
-```
-
-### Windows Signal Errors
-
-If you encounter `AttributeError: module 'signal' has no attribute 'SIGHUP'`, ensure you are using the provided example scripts or the patched test scripts (`tests/test_crew_win.py`), which include necessary compatibility patches.
-
-## 📂 Project Structure
-
-- `src/research_crew/`: Core CrewAI implementation.
-- `crewai_tools/`: The custom BrowserUseTool and Service.
-- `examples/`: Ready-to-run scenarios.
-- `logs/`: Execution logs (check here if something seems silent).
+---
+*Built with ❤️ by the CrewAI Team.*

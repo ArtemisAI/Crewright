@@ -69,4 +69,13 @@ dist/
 .vscode/
 .DS_Store
 
-_Docs/
+
+# _Docs/
+# Progress.md
+# Issues.md
+# Research/
+Templates/
+*.bak
+tests/
+_Import/
+

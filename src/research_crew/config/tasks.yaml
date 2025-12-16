@@ -1,13 +1,14 @@
-    description: >
-      Perform a comprehensive research session on the following topic: {topic}
-      
-      CRITICAL INSTRUCTIONS:
-      1. First, list your available tools and verify how to use them.
-      2. Perform a pre-flight check by navigating to 'https://google.com' to ensure internet connectivity and browser control.
-      3. Once verified, proceed to find the answers related to the topic.
-      4. Ensure you answer the specific questions if provided in the topic, or conduct general research if broad.
-      
-      Do not hallucinate. Use the browser tool to find the actual data.
+research_task:
+  description: >
+    Perform a comprehensive research session on the following topic: {topic}
+    
+    CRITICAL INSTRUCTIONS:
+    1. First, list your available tools and verify how to use them.
+    2. Perform a pre-flight check by navigating to 'https://google.com' to ensure internet connectivity and browser control.
+    3. Once verified, proceed to find the answers related to the topic.
+    4. Ensure you answer the specific questions if provided in the topic, or conduct general research if broad.
+    
+    Do not hallucinate. Use the browser tool to find the actual data.
   expected_output: >
     A detailed report containing the answers to the four questions, cited with the source URLs where the information was found.
   agent: researcher

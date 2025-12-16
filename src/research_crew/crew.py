@@ -40,5 +40,5 @@ class ResearchCrew():
             tasks=self.tasks,   # Automatically created by the @task decorator
             process=Process.sequential,
             verbose=True,
-            output_log_file='logs/research_crew.log'
+            output_log_file=os.getenv('CREWAI_LOG_FILE', 'logs/research_crew.log')
         )
