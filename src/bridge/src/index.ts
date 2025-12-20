@@ -132,21 +132,21 @@ server.tool(
 );
 
 server.tool(
-    "click_element",
+    "click",
     "Clicks an element defined by the CSS selector.",
     { selector: z.string() },
     async ({ selector }) => {
-        const result = await sendToExtension("click_element", { selector });
+        const result = await sendToExtension("click", { selector });
         return { content: [{ type: "text", text: JSON.stringify(result) }] };
     }
 );
 
 server.tool(
-    "type_text",
-    "Types text into an input defined by the CSS selector.",
-    { selector: z.string(), text: z.string() },
-    async ({ selector, text }) => {
-        const result = await sendToExtension("type_text", { selector, text });
+    "fill",
+    "Fills an input defined by the CSS selector with the specified value.",
+    { selector: z.string(), value: z.string() },
+    async ({ selector, value }) => {
+        const result = await sendToExtension("fill", { selector, value });
         return { content: [{ type: "text", text: JSON.stringify(result) }] };
     }
 );
@@ -158,6 +158,62 @@ server.tool(
     async ({ question }) => {
         console.error(`\n[AGENT NEEDS HELP] ${question}`);
         return { content: [{ type: "text", text: "Please alert the user manually. (Stdio input not supported in this mode)" }] };
+    }
+);
+
+server.tool(
+    "screenshot",
+    "Captures a screenshot of the current visible tab.",
+    { width: z.number().optional() },
+    async () => {
+        const result = await sendToExtension("screenshot", {});
+        // result should be a base64 string
+        return {
+            content: [
+                { type: "text", text: "Screenshot captured" },
+                { type: "image", data: result as string, mimeType: "image/png" }
+            ]
+        };
+    }
+);
+
+server.tool(
+    "hover",
+    "Hovers over an element defined by the CSS selector.",
+    { selector: z.string() },
+    async ({ selector }) => {
+        const result = await sendToExtension("hover", { selector });
+        return { content: [{ type: "text", text: JSON.stringify(result) }] };
+    }
+);
+
+server.tool(
+    "press",
+    "Simulates pressing a keyboard key (e.g., 'Enter', 'Escape').",
+    { key: z.string() },
+    async ({ key }) => {
+        const result = await sendToExtension("press", { key });
+        return { content: [{ type: "text", text: JSON.stringify(result) }] };
+    }
+);
+
+server.tool(
+    "evaluate",
+    "Executes custom JavaScript in the page context.",
+    { expression: z.string() },
+    async ({ expression }) => {
+        const result = await sendToExtension("evaluate", { expression });
+        return { content: [{ type: "text", text: JSON.stringify(result) }] };
+    }
+);
+
+server.tool(
+    "scroll",
+    "Scrolls the page. Direction can be 'up', 'down', 'top', or 'bottom'.",
+    { direction: z.enum(["up", "down", "top", "bottom"]) },
+    async ({ direction }) => {
+        const result = await sendToExtension("scroll", { direction });
+        return { content: [{ type: "text", text: JSON.stringify(result) }] };
     }
 );
 

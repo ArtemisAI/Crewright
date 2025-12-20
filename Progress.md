@@ -12,4 +12,7 @@
     - [x] End-to-End Navigation (Verified)
 
 ## Current Status
-- **2025-12-16**: **SUCCESS**. The Node.js Bridge is stable. Agent can control the authenticated browser, navigate, and read content reliably.
+- **2025-12-16**: **SUCCESS**. Phase 2 Complete. New tools (`screenshot`, `hover`, `press`, `evaluate`) implemented. Tool definitions aligned with Playwright.
+    - **Robustness**: `fill` and `press` tools verified working. `evaluate` logic migrated to `background.js` (MV3 Compliant).
+    - **Efficiency**: Research completed on Batching/Macros (`_Docs/Reference/Efficiency.md`).
+    - **Release V1**: Verified `npx @crew-ai/crewright` connectivity.

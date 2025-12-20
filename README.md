@@ -42,7 +42,7 @@ To give CrewAI access to your browser, you need to load the bridge extension.
 
 ### 2. The Server (Node.js)
 ```bash
-npx @crewai/crewright
+npx @crew-ai/crewright
 ```
 *(Or run locally during dev)*:
 ```bash
@@ -60,7 +60,7 @@ from crewai.mcp import MCPServerStdio
 
 crewright_server = MCPServerStdio(
     command="npx",
-    args=["@crewai/crewright"] 
+    args=["@crew-ai/crewright"] 
     # OR local: args=["node", "./path/to/dist/index.js"]
 )
 
@@ -98,13 +98,21 @@ Go to **Cursor Settings** -> **MCP** -> **Add new** -> Command: `npx @crewai/cre
 
 ## 🛠️ Tools Available
 
-| Tool | Description |
-| :--- | :--- |
-| `navigate(url)` | Moves the active tab to a new URL. |
-| `get_page_content()` | Returns the text content of the page (Markdown friendly). |
-| `click_element(selector)` | Clicks a DOM element via CSS selector. |
-| `type_text(selector, text)` | Types into an input field. |
-| `ask_human(question)` | Pauses execution and asks YOU for help (e.g., OTP codes). |
+> [!NOTE]
+> **v1.1.0 (Dev Branch) Update**: Tool names have been renamed to match **Playwright** conventions.
+
+| Tool | Description | Playwright Equivalent |
+| :--- | :--- | :--- |
+| `navigate(url)` | Moves the active tab to a new URL. | `page.goto(url)` |
+| `get_page_content()` | Returns the text content of the page. | `page.content()` |
+| `click(selector)` | Clicks a DOM element. | `page.click(selector)` |
+| `fill(selector, value)` | Fills an input field. | `page.fill(selector, value)` |
+| `press(key)` | Simulates specific key press (e.g. 'Enter'). | `page.press(selector, key)` |
+| `evaluate(expression)` | Executes JavaScript in the page context. | `page.evaluate(expression)` |
+| `screenshot()` | Captures a screenshot (Base64). | `page.screenshot()` |
+| `hover(selector)` | Hovers over an element. | `page.hover(selector)` |
+| `scroll(direction)` | Scrolls the viewport ('up', 'down', 'top', 'bottom'). | *Custom Helper* |
+| `ask_human(question)` | Pauses execution and asks YOU for help. | *CrewAI Exclusive* |
 
 ## 📚 Documentation
 *   [**Architecture**](./ARCHITECTURE.md) - Why "Parasitic" vs Headless?
