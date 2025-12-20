@@ -70,12 +70,12 @@ dist/
 .DS_Store
 
 
-# _Docs/
+_Docs/
 # Progress.md
 # Issues.md
-# Research/
+Research/
 Templates/
 *.bak
-# tests/
+tests/
 _Import/
 

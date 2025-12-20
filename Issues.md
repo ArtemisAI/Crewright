@@ -10,3 +10,4 @@
 ## Active
 - **Agent Planning Stall**: During verification, the agent occasionally hangs/stalls before reporting task completion (likely LLM planning latency).
 - **NPX Output Noise**: Running via `npx` (Release V1) can pollute stdio with installation messages, breaking MCP connection. **Workaround**: Use `-y` flag or pre-install.
+- **Windows File Association (VS Code Popup)**: On some Windows environments, running `npx package` triggers VS Code to open the script file instead of executing it with Node. **Fix**: Do NOT use `npx` in production code. Use `npm install` followed by explicit `node /path/to/script.js`.
