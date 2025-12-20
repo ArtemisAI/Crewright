@@ -123,7 +123,7 @@ Go to **Cursor Settings** -> **MCP** -> **Add new** -> Command: `npx @crewai/cre
 This project is open-source and maintained by **Daniel Gonzalez** (ArtemisAI).
 If you find this tool useful for your agents, please consider supporting the development!
 
-*   **Sponsor**: [GitHub Sponsors](https://github.com/sponsors/yourusername) (Replace with actual if available)
+*   **Sponsor**: [GitHub Sponsors](https://github.com/sponsors/ArtemisAI)
 *   **Hire Me**: [AI Solopreneur & Developer](https://dan-ai.pro/)
 *   **ArtemisAI**: [Enterprise AI Solutions](https://artemis-ai.ca)
 
